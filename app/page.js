@@ -1,7 +1,7 @@
 'use client';
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import './globals.css'
+import { useEffect, useState, useRef } from 'react';
 
 const USERS = [
   { id: 'gino',   color: '#e060c0' },
@@ -52,22 +52,34 @@ export default function Home() {
     });
   }, []);
 
-  async function handleClick(day) {
-    const key = day.toISOString().split('T')[0];
-    const current = (data[selectedUser] || {})[key];
-    const newState = cycle(current);
-    await fetch('/api/availability', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user: selectedUser, date: key, status: newState }),
-    });
-    setData(prev => {
-      const updated = { ...prev[selectedUser] };
-      if (newState === null) delete updated[key];
-      else updated[key] = newState;
-      return { ...prev, [selectedUser]: updated };
-    });
-  }
+const pendingClicks = useRef({});
+
+async function handleClick(day) {
+  const key = day.toISOString().split('T')[0];
+
+  // Ignore if this cell already has a request in flight
+  if (pendingClicks.current[key]) return;
+  pendingClicks.current[key] = true;
+
+  const current = (data[selectedUser] || {})[key];
+  const newState = cycle(current);
+
+  setData(prev => {
+    const updated = { ...prev[selectedUser] };
+    if (newState === null) delete updated[key];
+    else updated[key] = newState;
+    return { ...prev, [selectedUser]: updated };
+  });
+
+  await fetch('/api/availability', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ user: selectedUser, date: key, status: newState }),
+  });
+
+  // Unlock after request finishes
+  delete pendingClicks.current[key];
+}
 
   const months = {};
   days.forEach(d => {

@@ -55,6 +55,7 @@ body {
   vertical-align: middle;
   position: relative;
   top: -2px;
+  filter: brightness(0) saturate(100%) invert(58%) sepia(96%) saturate(1250%) hue-rotate(164deg) brightness(94%) contrast(94%);
 }
 
 /* Player buttons */
