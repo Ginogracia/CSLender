@@ -36,6 +36,10 @@ function isFullSquad(data, key) {
 
 export default function Home() {
   const [selectedUser, setSelectedUser] = useState("gino");
+  useEffect(() => {
+    const saved = localStorage.getItem("cs2_selected_user");
+    if (saved) setSelectedUser(saved);
+  }, []);
   const [data, setData] = useState({});
   const days = getDays();
   const today = new Date();
@@ -117,7 +121,10 @@ export default function Home() {
             key={u.id}
             className={"pbtn" + (u.id === selectedUser ? " on" : "")}
             style={{ color: u.id === selectedUser ? u.color : "" }}
-            onClick={() => setSelectedUser(u.id)}
+            onClick={() => {
+              setSelectedUser(u.id);
+              localStorage.setItem("cs2_selected_user", u.id);
+            }}
           >
             <div
               className="pip"
