@@ -1,0 +1,392 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #0d0f12;
+  --surf: #141820;
+  --border: #252d40;
+  --accent: #27b1e8;
+  --green: #3ecf6e;
+  --red: #e84040;
+  --text: #c8d4e8;
+  --muted: #4a5a74;
+  --white: #eef2f8;
+}
+
+body {
+  background: var(--bg);
+  font-family: 'Rajdhani', sans-serif;
+  color: var(--text);
+}
+
+.wrap {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 2rem 3rem;
+}
+
+/* Header */
+.header {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.wordmark {
+  font-size: 2.4rem;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--white);
+  display: flex;
+  align-items: center;
+}
+
+.wordmark-img {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  filter: invert(1) brightness(2);
+  margin: 0 2px;
+  vertical-align: middle;
+  position: relative;
+  top: -2px;
+}
+
+/* Player buttons */
+.players {
+  display: flex;
+  gap: .75rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.tutorial-box {
+  background: var(--surf);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  padding: .75rem 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.tutorial-box p {
+  font-size: .95rem;
+  color: var(--muted);
+  letter-spacing: .03em;
+  line-height: 1.5;
+}
+
+.pbtn {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .6rem 1.2rem;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  background: var(--surf);
+  cursor: pointer;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: .06em;
+  color: var(--muted);
+  text-transform: uppercase;
+  transition: all .12s;
+}
+
+.pbtn:hover { color: var(--white); }
+.pbtn.on { border-color: currentColor; }
+
+.pip {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Month label */
+.month-lbl {
+  font-size: .85rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  margin-bottom: .6rem;
+}
+
+/* ── DESKTOP CALENDAR (grid) ── */
+.wkrow {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.wk {
+  text-align: center;
+  font-size: .8rem;
+  color: var(--muted);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: .3rem 0;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 2rem;
+}
+
+.cell {
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--surf);
+  cursor: pointer;
+  padding: .6rem .4rem .5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  transition: border-color .1s, background .1s;
+  min-height: 80px;
+}
+
+.cell:hover { border-color: #3a4a64; }
+.cell.empty { background: transparent; border-color: transparent; cursor: default; }
+.cell.empty:hover { background: transparent; border-color: transparent; }
+.cell.today { border-color: var(--accent); }
+
+.dnum {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1;
+}
+
+.cell.today .dnum { color: var(--accent); }
+
+.dots {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.udot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  opacity: .25;
+}
+
+.udot.av { opacity: 1; }
+.udot.un { opacity: 1; background: var(--red) !important; }
+
+/* ── MOBILE CALENDAR (list rows) ── */
+.mobile-list {
+  display: none;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 2rem;
+}
+
+.mobile-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: .75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surf);
+  cursor: pointer;
+  transition: border-color .1s, background .1s;
+}
+
+.mobile-row:hover { border-color: #3a4a64; }
+.mobile-row.today { border-color: var(--accent); }
+
+.mobile-date {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 48px;
+}
+
+.mobile-daynum {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text);
+}
+
+.mobile-row.today .mobile-daynum { color: var(--accent); }
+
+.mobile-weekday {
+  font-size: .7rem;
+  color: var(--muted);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.mobile-divider {
+  width: 1px;
+  height: 36px;
+  background: var(--border);
+  flex-shrink: 0;
+}
+
+.mobile-dots {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.mobile-user {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.mobile-pip {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  opacity: .25;
+  flex-shrink: 0;
+}
+
+.gino-shoutout {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 1rem;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.3);
+    text-decoration: none;
+}
+
+.mobile-pip.av { opacity: 1; }
+.mobile-pip.un { opacity: 1; background: var(--red) !important; }
+
+.mobile-name {
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.badge-available {
+  background: rgba(62,207,110,.12);
+  color: #6eedaa;
+}
+
+.badge-unavailable {
+  background: rgba(232,64,64,.1);
+  color: #f07070;
+}
+
+/* ── BREAKPOINTS ── */
+
+/* Tablet */
+@media (max-width: 768px) {
+  .wrap { padding: 1.5rem 1.2rem 2.5rem; }
+  .wordmark { font-size: 1.9rem; }
+  .wordmark-img { width: 42px; height: 42px; }
+  .pbtn { font-size: 1rem; padding: .55rem 1rem; }
+  .cell { min-height: 60px; }
+  .dnum { font-size: 1rem; }
+  .grid { gap: 5px; }
+  .wkrow { gap: 5px; }
+}
+
+/* Mobile — switch to list layout */
+@media (max-width: 560px) {
+  .wrap { padding: 1rem 1rem 2rem; }
+  .wordmark { font-size: 1.5rem; }
+  .wordmark-img { width: 34px; height: 34px; }
+  .pbtn { font-size: .95rem; padding: .5rem .9rem; }
+  .pip { width: 8px; height: 8px; }
+
+  /* Hide grid, show list */
+  .wkrow { display: none; }
+  .grid { display: none; }
+  .mobile-list { display: flex; }
+}
+
+/* ── FULL SQUAD ANIMATION ── */
+ 
+@keyframes squadPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(232,168,39,.7), 0 0 0 0 rgba(62,207,110,.4); }
+  50%  { box-shadow: 0 0 0 8px rgba(232,168,39,.0), 0 0 0 16px rgba(62,207,110,.0); }
+  100% { box-shadow: 0 0 0 0 rgba(232,168,39,.0), 0 0 0 0 rgba(62,207,110,.0); }
+}
+ 
+@keyframes squadShine {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+ 
+@keyframes squadPop {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.08); }
+  60%  { transform: scale(0.97); }
+  100% { transform: scale(1); }
+}
+ 
+@keyframes dotBounce {
+  0%,100% { transform: translateY(0); }
+  40%      { transform: translateY(-4px); }
+  70%      { transform: translateY(-2px); }
+}
+ 
+.cell.full-squad {
+  border-color: var(--accent) !important;
+  animation: squadPop .4s ease forwards, squadPulse .8s ease .1s forwards;
+  background: linear-gradient(
+    105deg,
+    rgba(62,207,110,.08) 0%,
+    rgba(232,168,39,.18) 40%,
+    rgba(62,207,110,.08) 100%
+  ) !important;
+  background-size: 200% auto !important;
+}
+ 
+.cell.full-squad .udot {
+  animation: dotBounce .5s ease forwards;
+}
+ 
+.cell.full-squad .udot:nth-child(1) { animation-delay: .05s; }
+.cell.full-squad .udot:nth-child(2) { animation-delay: .12s; }
+.cell.full-squad .udot:nth-child(3) { animation-delay: .19s; }
+.cell.full-squad .udot:nth-child(4) { animation-delay: .26s; }
+ 
+/* Mobile full squad */
+.mobile-row.full-squad {
+  border-color: var(--accent) !important;
+  animation: squadPop .4s ease forwards, squadPulse .8s ease .1s forwards;
+  background: linear-gradient(
+    105deg,
+    rgba(62,207,110,.08) 0%,
+    rgba(232,168,39,.15) 40%,
+    rgba(62,207,110,.08) 100%
+  ) !important;
+}
+ 
+.mobile-row.full-squad .mobile-pip {
+  animation: dotBounce .5s ease forwards;
+}
+ 
+.mobile-row.full-squad .mobile-pip:nth-child(1) { animation-delay: .05s; }
+.mobile-row.full-squad .mobile-pip:nth-child(2) { animation-delay: .12s; }
+.mobile-row.full-squad .mobile-pip:nth-child(3) { animation-delay: .19s; }
+.mobile-row.full-squad .mobile-pip:nth-child(4) { animation-delay: .26s; }
