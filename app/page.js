@@ -45,19 +45,32 @@ export default function Home() {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   const [loading, setLoading] = useState({});
+  const [initialLoading, setInitialLoading] = useState(true);
   const pendingClicks = useRef({});
 
   useEffect(() => {
-    USERS.forEach((u) => {
-      fetch(`/api/availability?user=${u.id}`)
-        .then((res) => res.json())
-        .then((res) => {
-          const map = {};
-          res.forEach((item) => {
-            map[item.date] = item.status;
-          });
-          setData((prev) => ({ ...prev, [u.id]: map }));
-        });
+    const saved = localStorage.getItem("cs2_selected_user");
+    if (saved) setSelectedUser(saved);
+
+    Promise.all(
+      USERS.map((u) =>
+        fetch(`/api/availability?user=${u.id}`)
+          .then((res) => res.json())
+          .then((res) => {
+            const map = {};
+            res.forEach((item) => {
+              map[item.date] = item.status;
+            });
+            return { id: u.id, map };
+          }),
+      ),
+    ).then((results) => {
+      const newData = {};
+      results.forEach(({ id, map }) => {
+        newData[id] = map;
+      });
+      setData(newData);
+      setInitialLoading(false);
     });
   }, []);
 
@@ -97,6 +110,15 @@ export default function Home() {
       };
     months[k].days.push(d);
   });
+
+  if (initialLoading) {
+    return (
+      <div className="site-loader">
+        <div className="site-spinner" />
+        <span>Vänta lite göbb...</span>
+      </div>
+    );
+  }
 
   return (
     <div className="wrap">
