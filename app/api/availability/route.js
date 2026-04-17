@@ -1,6 +1,9 @@
 import clientPromise from '@/lib/mongodb';
 import { NextResponse } from 'next/server';
 
+export const runtime = "nodejs";
+export const preferredRegion = "fra1";
+
 async function cleanOldEntriesIfNeeded(db) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
