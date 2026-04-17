@@ -236,6 +236,13 @@ async function handleClick(day) {
         );
       })}
       <a className="gino-shoutout" target="_blank" href="https://ginogracia.se">Gino Gracia Baumkircher @2026</a>
+    <Image
+        src="/funnybebe.jpg"
+        alt="CS2"
+        width={50}
+        height={50}
+        className="easter-egg-img"
+    />
     </div>
   );
 }

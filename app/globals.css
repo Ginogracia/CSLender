@@ -306,6 +306,8 @@ body {
   .dnum { font-size: 1rem; }
   .grid { gap: 5px; }
   .wkrow { gap: 5px; }
+  .easter-egg-img { display: none; }
+  .easter-egg-img:hover { display: none;}
 }
 
 /* Mobile — switch to list layout */
@@ -320,6 +322,8 @@ body {
   .wkrow { display: none; }
   .grid { display: none; }
   .mobile-list { display: flex; }
+  .easter-egg-img { display: none; }
+  .easter-egg-img:hover { display: none;}
 }
 
 /* ── FULL SQUAD ANIMATION ── */
@@ -389,3 +393,20 @@ body {
 .mobile-row.full-squad .mobile-pip:nth-child(2) { animation-delay: .12s; }
 .mobile-row.full-squad .mobile-pip:nth-child(3) { animation-delay: .19s; }
 .mobile-row.full-squad .mobile-pip:nth-child(4) { animation-delay: .26s; }
+
+.easter-egg-img {
+    opacity: 0;
+    transition: 0.8s;
+    border-radius: 2px;
+    position: absolute;
+    left: 200px;
+    top: 200px;
+}
+
+.easter-egg-img:hover {
+    opacity: 0.8;
+    transform: scale(5);
+    transition: 0.2s;
+    cursor: help;
+    /* animation-delay: transform .12s; */
+}
